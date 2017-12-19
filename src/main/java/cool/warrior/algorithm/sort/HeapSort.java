@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * 堆排序.
+ * 堆排序(http://blog.csdn.net/jianyuerensheng/article/details/51263453).
  * @author WYR
  *
  */
