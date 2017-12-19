@@ -11,32 +11,32 @@ import java.util.Random;
 public class HeapSort {
 
 	
-	void adjustHeap(int[] num, int s, int t) {
-		int i = s;
-		int x = num[s];
-		for (int j = 2 * i; j <= t; j = 2 * j) {
-			if (j < t && num[j] < num[j + 1])
-				j = j + 1;// 找出较大者把较大者给num[i]
-			if (x > num[j])
-				break;
-			num[i] = num[j];
-			i = j;
-		}
-		num[i] = x;
-	}
+	void adjustHeap(int[] a, int i, int len) {
+        int temp, j;
+        temp = a[i];
+        for (j = 2 * i; j < len; j *= 2) {// 沿关键字较大的孩子结点向下筛选
+            if (j < len && a[j] < a[j + 1])
+                ++j; // j为关键字中较大记录的下标
+            if (temp >= a[j])
+                break;
+            a[i] = a[j];
+            i = j;
+        }
+        a[i] = temp;
+    }
 	
-	void sort(int[] array, int n) {
-		int i;
-		for (i=n/2;i>=1;i--) {
-			adjustHeap(array, i, n);
-		}
-		for (i=n;i>1;i--) {
-			array[0] = array[i];
-			array[i] = array[1];
-			array[1] = array[0];
-			adjustHeap(array, 1, i-1);
-		}
-	}
+	void sort(int[] a) {
+        int i;
+        for (i = a.length / 2 - 1; i >= 0; i--) {// 构建一个大顶堆
+            adjustHeap(a, i, a.length - 1);
+        }
+        for (i = a.length - 1; i >= 0; i--) {// 将堆顶记录和当前未经排序子序列的最后一个记录交换
+            int temp = a[0];
+            a[0] = a[i];
+            a[i] = temp;
+            adjustHeap(a, 0, i - 1);// 将a中前i-1个记录重新调整为大顶堆
+        }
+    }
 	
 	public static void main(String[] args) {
 		Random rdm = new Random();
@@ -45,9 +45,9 @@ public class HeapSort {
 			arr[i] = rdm.nextInt(100);
 		}
 		System.out.println("生成数组=" + Arrays.toString(arr));
-		
 		HeapSort h = new HeapSort();
-		h.sort(arr, arr.length-1);
+		h.sort(arr);
 		System.out.println("排序后=" + Arrays.toString(arr));
+		//这么写有bug，没找到bug的问题在哪.
 	}
 }
